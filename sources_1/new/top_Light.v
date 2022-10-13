@@ -3,17 +3,24 @@
 module top_Light(
     input i_clk,
     input i_reset,
-    input i_button,
+    input [1:0] i_button,
     output [1:0] o_light
  );
 
-     wire w_button;
+     wire [1:0] w_button;
 
-    Button_Controller btn_ct(
+    Button_Controller btn_ct1(
     .i_clk(i_clk),
-    .i_button(i_button),
+    .i_button(i_button[0]),
     .i_reset(i_reset),
-    .o_button(w_button)
+    .o_button(w_button[0])
+    );
+
+    Button_Controller btn_ct2(
+    .i_clk(i_clk),
+    .i_button(i_button[1]),
+    .i_reset(i_reset),
+    .o_button(w_button[1])
     );
    
 

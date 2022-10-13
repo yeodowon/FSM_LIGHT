@@ -4,7 +4,7 @@ module FSM_Light(
     input i_clk,
     input i_reset,
     input [1:0] i_OnOffSW,
-    input i_button,
+    input [1:0] i_button,
     output [1:0] o_light
     );
 
@@ -29,20 +29,24 @@ module FSM_Light(
     always @(curState or i_button) begin
         case (curState)
             S_LED_00 : begin
-                if (i_button) nextState <= S_LED_01;
-                else          nextState <= S_LED_00; // 조건문이 완성되지 않으면 원치 않는 조건문이 발생한다.
+                if (i_button[0])      nextState <= S_LED_01;
+                else if (i_button[1]) nextState <= S_LED_11;
+                else                  nextState <= S_LED_00; // 조건문이 완성되지 않으면 원치 않는 조건문이 발생한다.
             end
             S_LED_01  : begin
-                if (i_button) nextState <= S_LED_10;
-                else          nextState <= S_LED_01;
+                if (i_button[0])      nextState <= S_LED_10;
+                else if (i_button[1]) nextState <= S_LED_00;
+                else                  nextState <= S_LED_01;
             end
              S_LED_10  : begin
-                if (i_button) nextState <= S_LED_11;
-                else          nextState <= S_LED_10;
+                if (i_button[0])      nextState <= S_LED_11;
+                else if (i_button[1]) nextState <= S_LED_01;
+                else                  nextState <= S_LED_10;
             end
              S_LED_11  : begin
-                if (i_button) nextState <= S_LED_00;
-                else          nextState <= S_LED_11;
+                if (i_button[0])      nextState <= S_LED_00;
+                else if (i_button[1]) nextState <= S_LED_10;
+                else                  nextState <= S_LED_11;
             end
            
         endcase
